@@ -26,14 +26,14 @@ def help(message):
 
 @bot.message_handler(commands=["admin"])
 def admin_commands(message):
-    if message.from_user.id  == os.environ['OWNER_TELEGRAM_ID']:
+    if message.from_user.id  == str(os.environ['OWNER_TELEGRAM_ID']):
         text = f"Commands for admin are as follows:\n1. /res\n2. /mainres\nMainres can only be 25,50,100"
         bot.reply_to(message  , text)
 
 @bot.message_handler(commands=["mainres"])
 def mainres_get(message):
     global mainres
-    if message.from_user.id  == os.environ['OWNER_TELEGRAM_ID']:
+    if message.from_user.id  == str(os.environ['OWNER_TELEGRAM_ID']):
         try:
             a = str(message.text)
             mainres = a[9:]
@@ -48,7 +48,7 @@ def mainres_get(message):
 @bot.message_handler(commands=["res"])
 def res_res(message):
     global results
-    if message.from_user.id  == os.environ['OWNER_TELEGRAM_ID']:
+    if message.from_user.id  == str(os.environ['OWNER_TELEGRAM_ID']):
         try:
             results = message.text
             results = results[5:]
