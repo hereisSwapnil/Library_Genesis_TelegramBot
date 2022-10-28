@@ -1,3 +1,4 @@
-requests==2.24.0
-beautifulsoup4==4.9.1
-pyTelegramBotAPI==3.7.2
+beautifulsoup4==4.11.1
+emoji==1.6.3
+pyTelegramBotAPI==4.7.1
+requests==2.27.1
