@@ -5,9 +5,19 @@ import requests
 import emoji
 
 
+
+# Copyright published who claimed on the bot
+# The bot does not shows thier content on asking
+RED_Publishers = ["Schand","Schand Publisching"]
+RED_Authors = ["Schand"]
+
+
+
 def is_emoji(text):
     """This function returns True if there is an emoji in the given string else False"""
     return bool(emoji.get_emoji_regexp().search(text))
+
+
 
 def link_to_get(link):
     """This function will get the url of the image & book download direct link using the given link for book download"""
@@ -21,6 +31,8 @@ def link_to_get(link):
     img_link_src = img_link_td.get("src")
     img_link = f"http://library.lol{img_link_src}"
     return [link_href, img_link]
+
+
 
 def book_get(name, mainres=25, results=5):
     """This function returns the list of books for the given name
@@ -38,12 +50,13 @@ def book_get(name, mainres=25, results=5):
 
         Results:
                     [   0.Book Name, 
-                        1.Author, 
-                        2.Size, 
-                        3.Book Type, 
-                        4.Book Link, 
-                        5.Book Image Link
-                        6.Language]"""
+                        1.Author,
+                        2.Publisher, 
+                        3.Size, 
+                        4.Book Type, 
+                        5.Book Link, 
+                        6.Book Image Link
+                        7.Language]"""
     Books = []
     if is_emoji(name) == True:
         return "Error: emoji"
@@ -65,7 +78,6 @@ def book_get(name, mainres=25, results=5):
     table_rows = table.find_all("tr")
     a = len(table_rows)
     table_rows.pop(0)
-    # print(url, "\n\n")
     if a > 1 :
         counter = 0
         for i in table_rows :
@@ -78,6 +90,14 @@ def book_get(name, mainres=25, results=5):
                 book_name = table_datas[2].get_text()
                 # author name
                 author = table_datas[1].get_text()
+                # publisher name
+                publisher = table_datas[3].get_text()
+                if publisher in RED_Publishers:
+                    break
+                if author in RED_Authors:
+                    break
+                if publisher == "":
+                    publisher = "unknown"
                 # getting link to book
                 link_row = table_datas[9]
                 a = link_row.find("a" , href = True)
@@ -98,13 +118,13 @@ def book_get(name, mainres=25, results=5):
                     continue
                 book_lst.append(book_name)
                 book_lst.append(author)
+                book_lst.append(publisher)
                 book_lst.append(size)
                 book_lst.append(type_ofit)
                 book_lst.append(link_all[0])
                 book_lst.append(link_all[1])
                 book_lst.append(language)
                 Books.append(book_lst)
-                # print(f"\n\n\n{book_lst}\n\n\n")
                 counter+=1
         if len(Books) >=1 :
             return Books
@@ -112,11 +132,13 @@ def book_get(name, mainres=25, results=5):
             return "Error: no results found"
     else:
         return "Error: no results found"
-
-
-            
     
-# a = book_get("Harry Potter",25,5)
-# print(a)
-# for i in a :
-#     print(f"\n\nName : {i[0]}\nAuthor : {i[1]}\nSize : {i[2]}\nFormat : {i[3]}\nLink : {i[4]}\nImage : {i[5]}\n\n")
+
+
+if __name__ == "__main__":
+    a = book_get("Python",25,5)
+    if "Error" not in a:
+        for i in a :
+            print(f"\n\nName : {i[0]}\nAuthor : {i[1]}\nPublisher : {i[2]}\nSize : {i[3]}\nFormat : {i[4]}\nLink : {i[5]}\nImage : {i[6]}\n\n")
+    else:
+        print(a)
