@@ -84,7 +84,7 @@ def books_get(message):
         counter = 0
         for i in data:
             if counter <= results:
-                dn = f"[DOWNLOAD NOW]({i[4]})"
+                dn = f"[DOWNLOAD NOW]({i[5]})"
                 caption_all = f"*Name* : {i[0]}\n*Author* : {i[1]}\n*Size* : {i[3]}\n*Format* : {i[4]}\n{dn}"
                 bot.send_photo(id ,i[6] , caption = caption_all ,parse_mode ="Markdown" )
                 counter+=1
