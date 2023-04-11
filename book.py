@@ -2,7 +2,7 @@
 from bs4 import BeautifulSoup as bs
 import requests
 # to identify emoji unicode characters
-import emoji
+import demoji
 
 
 
@@ -12,10 +12,10 @@ RED_Publishers = ["Schand","Schand Publisching"]
 RED_Authors = ["Schand"]
 
 
-
-def is_emoji(text):
-    """This function returns True if there is an emoji in the given string else False"""
-    return bool(emoji.get_emoji_regexp().search(text))
+# Function depriciated
+# def is_emoji(text):
+#     """This function returns True if there is an emoji in the given string else False"""
+#     return bool(emoji.get_emoji_regexp().search(text))
 
 
 
@@ -58,8 +58,10 @@ def book_get(name, mainres=25, results=5):
                         6.Book Image Link
                         7.Language]"""
     Books = []
-    if is_emoji(name) == True:
-        return "Error: emoji"
+    # Function Depriciated
+    # if is_emoji(name) == True:
+    #     return "Error: emoji"
+    name = demoji.replace(name, '')
     if name == "":
         return "Error: enter name"
     name = name.replace(" ", "+")
