@@ -70,6 +70,8 @@ def books_get(message):
     # response = requests.request("GET", url)
     # data_text = response.text
     # data = json.loads(data_text)
+    messageId = bot.reply_to(message , "Please wait...").message_id
+    chatId = message.chat.id
     data = book_get(given_name, mainres, results)
     # print(data)
     if data == "Error: emoji":
@@ -82,6 +84,7 @@ def books_get(message):
         bot.reply_to(message , "Error: Title Too Short\nPlease provide full title for better results")
     else:
         counter = 0
+        bot.delete_message(chatId, messageId)
         for i in data:
             if counter <= results:
                 dn = f"[DOWNLOAD NOW]({i[5]})"
